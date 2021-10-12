@@ -16,8 +16,11 @@ Lane-Emden is a simple C++ program that solves the Lane-Emden differential equat
 
 ![Lane-Emden_equation](rsc/Lane-Emden_equation.svg)
 
-with two possible algorithms: Euler and classic Runge-Kutta. The output file `Lane-Emden_Eulero.dat`/ `Lane-Emden_RK.dat` contains also the values of the first derivate `ψ'(ξ)` , concentration parameter `g_0` and `f_0`.
-This data may be easily visualize thanks to the Jupyter Notebook file `Lane-Emden.ipynb`. 
+for an arbitrary input value of the index `n` with two possible algorithms: Euler and classic Runge-Kutta. The output file `Lane-Emden_Eulero_n=<index>.dat`/`Lane-Emden_RK_n=<index>.dat` contains also the values of the first derivate `θ'(ξ)` , concentration parameter `g_0` and `f_0`.
+This data may be easily visualize thanks to the Jupyter Notebook files:
+- `Lane-Emden.ipynb`, which analyses deeply a given input dataset;
+- `Lane-Emden_confronti_vari_esponenti.ipynb`, which compares various datasets with different index values;
+- `Lane-Emden_confronto_Eulero-RK.ipynb`, which compares a dataset obtained with Euler algorithm with another obtained with Runge-Kutta one.
 
 ## Table of contents
 - [Lane-Emden](#lane-emden)
@@ -56,38 +59,38 @@ cd build
 cmake ..
 make
 ```
-The executable file `Bonnor_Ebert` is generated in the `build` directory.
+The executable file `Lane_Emden` is generated in the `build` directory.
 
 ### Usage
 
-In order to execute the `Bonnor_Ebert` file (inside the `build` directory), the syntax is the standar one:
+In order to execute the `Lane_Emden` file (inside the `build` directory), the syntax is the standar one:
 ```bash
-./Bonnor_Ebert {euler/rungekutta} [options]
+./Lane_Emden {euler/rungekutta} [options]
 ```
 
 The command `euler` tells the program to solve the differential equation with the Euler method, while `rungekutta` with the classic Runge-Kutta one. You have to specify which between these two algorithms must be used.
 
 The actual available options, for both `euler` and `rungekutta` commands, are the following:
 - `-h, --help`: print the help message;
+- `-n <index>, --index=<index>`	REQUIRED: set the index of the Lane-Emden equation to be resolved;
 - `-s <step>, --step=<step>`: set the step measure to be used solving the differential equation;
 - `-b <begin>, --begin=<begin>`: set the beginning value of `ξ`, where the algothims starts;
 - `-e <end>, --end=<end>`: set the ending value of `ξ`, where the algorithm ends;
-- `-c <cut>, --cut=<cut>`: set the  `ξ` value at which we wants to cut the Lane-Emden sphere.
 
 ### Output file
 
-Depending on the algorithm choosen, the output file (saved in the `build` directory) will be `Lane-Emden_Eulero.dat` or `Lane-Emden_RK.dat`.
+Depending on the algorithm choosen, the output file (saved in the `build` directory) will be `Lane-Emden_Eulero_n=<index>.dat` or `Lane-Emden_RK_n=<index>.dat`.
 For each of these files, the output data are organized in 6 columns; from left to right, they are:
 - the iteration index of the algorithm `i=0,1,2,...`
 - the corresponding `ξ` value
-- the function value in that point, i.e. `ψ(ξ)`
-- the first function derivate in that point, i.e. `ψ'(ξ)`
-- the concentration parameter `g_0` if the cut of the Lane-Emden sphere occurs at `ξ_0=ξ`;
--  the parameter `f_0` if the cut of the Lane-Emden sphere occurs at `ξ_0=ξ`;
+- the function value in that point, i.e. `θ(ξ)`
+- the first function derivate in that point, i.e. `θ'(ξ)`
+- the concentration parameter `g_0` at `ξ_0=ξ`;
+-  the parameter `f_0` at `ξ_0=ξ`;
 
 In a table form, the data are disposed like this: 
 
-|![i](rsc/i.svg)  | ![xi](rsc/xi.svg) |![psi](rsc/psi_of_xi.svg)  | ![psip](rsc/dpsi-dxi_of_xi.svg) | ![g_0](rsc/g_0.svg)  | ![f_0](rsc/f_0.svg) |
+|![i](rsc/i.svg)  | ![xi](rsc/xi.svg) |![theta](rsc/theta_of_xi.svg)  | ![thetap](rsc/dtheta-dxi_of_xi.svg) | ![g_0](rsc/g_0.svg)  | ![f_0](rsc/f_0.svg) |
 |--------------|--------------|-------------|-------------|-------------|-------------|
 |0   |    0.0001	| 0	          |0	          |0.9999	|0             |
 |1   |	0.00011	| 0	          |1e-05	     |0.99989  |1.21e-13      |
@@ -111,11 +114,11 @@ Unfortunately, the notous curl in the `p_0/p_s` vs `(R_0/R_s)^3` does not appear
 
 The original equation can be rewrited in this simple system:
 
-![BE_system](rsc/BE_system.svg)
+![LE_system](rsc/LE_system.svg)
 
 So, with the basic treatment of the differential equation numerical solutions:
 
-![BE_system](rsc/BE_num-system.svg)
+![LE_system](rsc/LE_num-system.svg)
 
 ## License
 
