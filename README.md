@@ -28,7 +28,9 @@ This data may be easily visualize thanks to the Jupyter Notebook files:
     - [Requirements](#requirements)
     - [Installation](#installation)
     - [Usage](#usage)
-    - [Output file](#output-file)
+    - [Options and output for `euler` and `rungekutta`](#options-and-output-for-euler-and-rungekutta)
+    - [Options for `zero`](#options-for-zero)
+    - [Options and output for `zerosfunc`](#options-and-output-for-zerosfunc)
     - [Visualization of the data](#visualization-of-the-data)
   - [Mathematical treatment](#mathematical-treatment)
   - [License](#license)
@@ -65,48 +67,117 @@ The executable file `Lane_Emden` is generated in the `build` directory.
 
 In order to execute the `Lane_Emden` file (inside the `build` directory), the syntax is the standar one:
 ```bash
-./Lane_Emden {euler/rungekutta} [options]
+./Lane_Emden {euler|rungekutta|zero|zerosfunc} [options]
 ```
 
-The command `euler` tells the program to solve the differential equation with the Euler method, while `rungekutta` with the classic Runge-Kutta one. You have to specify which between these two algorithms must be used.
+ - `euler` solve the differential equation with the Euler method;
+ - `rungekutta` solve the differential equation with the classic Runge-Kutta method;
+ - `zero` solve the differential equation with the classic Runge-Kutta method (not other methods avaiable for this command) and print to the standard output the resulting values of `ξ`, `θ'(ξ)`, ... in the zero of the numerical solution obtained; no output files are produced;
+ - `zerosfunc` solve the differential equation with the classic Runge-Kutta method (not other methods avaiable for this command) and creates an output file with the resulting values of `ξ`, `θ'(ξ)`, ... in the zero of the numerical solution for a subset of `n` values inside `[0,5)`.
 
-The actual available options, for both `euler` and `rungekutta` commands, are the following:
+You must specify the index `n` of the Lane-Emden equation to be resolved (throughout the option `-n <index>` or `--index=<index>`) for the commands `euler`-`rungekutta`-`zero` (because they operate on THAT SPECIFIC Lane-Emden equation), but not for `zerosfunc` (because it operates on the interval `n \in [0, 5)`).
+
+
+
+### Options and output for `euler` and `rungekutta`
+
+The actual available options, for `euler` and `rungekutta` commands, are the following:
 - `-h, --help`: print the help message;
 - `-n <index>, --index=<index>`	REQUIRED: set the index of the Lane-Emden equation to be resolved;
 - `-s <step>, --step=<step>`: set the step measure to be used solving the differential equation;
 - `-b <begin>, --begin=<begin>`: set the beginning value of `ξ`, where the algothims starts;
 - `-e <end>, --end=<end>`: set the ending value of `ξ`, where the algorithm ends;
 
-### Output file
-
 Depending on the algorithm choosen, the output file (saved in the `build` directory) will be `Lane-Emden_Eulero_n=<index>.dat` or `Lane-Emden_RK_n=<index>.dat`.
-For each of these files, the output data are organized in 6 columns; from left to right, they are:
-- the iteration index of the algorithm `i=0,1,2,...`
-- the corresponding `ξ` value
-- the function value in that point, i.e. `θ(ξ)`
-- the first function derivate in that point, i.e. `θ'(ξ)`
-- the concentration parameter `g_0` at `ξ_0=ξ`;
--  the parameter `f_0` at `ξ_0=ξ`;
+For each of these files, the output data are organized in 8 columns; from left to right, they are:
+- the iteration index of the algorithm `i=0,1,2,...`;
+- the corresponding `ξ` value;
+- the function value in that point, i.e. `θ(ξ)`;
+- the first function derivate in that point, i.e. `θ'(ξ)`;
+- the concentration parameter `g(ξ)`;
+- the parameter `f(ξ)`;
+- the parameter `h(ξ)`;
+- the parameter `α(ξ)`;
 
 In a table form, the data are disposed like this: 
 
-|![i](rsc/i.svg)  | ![xi](rsc/xi.svg) |![theta](rsc/theta_of_xi.svg)  | ![thetap](rsc/dtheta-dxi_of_xi.svg) | ![g_0](rsc/g_0.svg)  | ![f_0](rsc/f_0.svg) |
-|--------------|--------------|-------------|-------------|-------------|-------------|
-|0   |    0.0001	| 0	          |0	          |0.9999	|0             |
-|1   |	0.00011	| 0	          |1e-05	     |0.99989  |1.21e-13      |
-|2   |	0.00012	| 1e-10	     |1.81818e-05	|0.99988	|2.61818e-13   |
-|3   |	0.00013	| 2.81818e-10	|2.51515e-05	|0.99987	|4.25061e-13   |
-|... |	...       | ...	     | ...	     |...	     |...           |
+|![i](rsc/i.svg)  | ![xi](rsc/xi.svg) |![theta](rsc/theta_of_xi.svg)  | ![thetap](rsc/dtheta-dxi_of_xi.svg) | ![g_csi](rsc/g_csi.svg)  | ![f_csi](rsc/f_csi.svg) | ![h_csi](rsc/h_csi.svg)  | ![alpha_csi](rsc/alpha_csi.svg) |
+|--------------|--------------|-------------|-------------|-------------|-------------|-------------|-------------|
+|0	 |  0.0001	 |  1	         |    0   	      | 1	 |    -0 |  0 | 	0 | 	 inf |	 
+|1	 |  0.0011	 |  1	         |  -0.000175084	| 1	 |  2.11852e-10 	 |  -0.477502 	 | 6.54207e+06 |	 
+|2	 |  0.0021	 |  0.999999	 |  -0.000643578	 |1	 |2.83818e-09 	 |-0.919396 	 |1.15978e+06 |	 
+|3	 |  0.0031	 |  0.999998	 |  -0.00100734	 |1	 |9.68052e-09 	 |-0.974843 | 511844 |	 
+|4	 |  0.0041	 |  0.999997	 |  -0.0013518	 |1	 |2.27237e-08 	 |-0.989119 	 | 289790 |	 
+|... |	...       | ...	     | ...  |...	 |... |...  |...      |
 
-Here we rememeber the  definition of `g_0` and `f_0`:
+Here we rememeber the definition of `g_csi`, `f_csi`, `h_csi` e `alpha_csi`:
 
-|![g_0](rsc/g_0_definition.svg) |  | | |  | ![f_0](rsc/f_0_definition.svg) |
-|--------------|-|-|-|-|--------------|
+|![g_csi](rsc/g_csi_definition.svg) | | | ![f_csi](rsc/f_csi_definition.svg) |
+|--------------|-|-|--------------|
+|![h_csi](rsc/h_csi_definition.svg) | | | ![alpha_csi](rsc/alpha_csi_definition.svg) |
+
+
+
+### Options for `zero`
+
+The actual available options, for the `zero` command, are the following:
+- `-h, --help`: print the help message;
+- `-n <index>, --index=<index>`	REQUIRED: set the index of the Lane-Emden equation to be resolved;
+- `-s <step>, --step=<step>`: set the step measure to be used solving the differential equation;
+- `-b <begin>, --begin=<begin>`: set the beginning value of `ξ`, where the algothims starts;
+- `-e <end>, --end=<end>`: set the ending value of `ξ`, where the algorithm ends;
+- `-m <min>, --min=<min>`: value of theta considered sufficiently close to zero (from up) where the algorithm must stop; it's better to set values not less than `1e-5`, because the algorithm becomes more and more unstable for certain values of `n` when the numerical solution approaches to zero.
+
+
+
+### Options and output for `zerosfunc` 
+
+The actual available options, for the `zerosfunc` command, are the following:
+- `-h, --help`: print the help message;
+- `-s <step>, --step=<step>`: set the step measure to be used solving the differential equation;
+- `-b <begin>, --begin=<begin>`: set the beginning value of `ξ`, where the algothims starts;
+- `-e <end>, --end=<end>`: set the ending value of `ξ`, where the algorithm ends;
+- `-sn <index_step>, --index_step=<index_step>`: set the step which will be used to sample the index `n` of the Lane-Emden equation;
+- `-m <min>, --min=<min>`: value of theta considered sufficiently close to zero (from up) where the algorithm must stop; it's better to set values not less than `1e-5`, because the algorithm becomes more and more unstable for certain values of `n` when the numerical solution approaches to zero.
+
+The output file (saved in the `build` directory) will be `Lane-Emden_Eulero_zerosfunc.dat`.
+The output data are organized in 9 columns; from left to right, they are:
+- the iteration index of the algorithm `i` where the zero is placed;
+- the value of the index `n`;
+- the corresponding `ξ_n` value;
+- the function value in that point, i.e. `θ(ξ_n)`;
+- the first function derivate in that point, i.e. `θ'(ξ_n)`;
+- the concentration parameter `g_n = g(ξ_n)`;
+- the parameter `f_n = f(ξ_n)`;
+- the parameter `h_n = h(ξ_n)`;
+- the parameter `α_n = α(ξ_n)`;
+
+In a table form, the data are disposed like this: 
+
+|![i](rsc/i.svg)  | ![n](rsc/n.svg) |![xi_n](rsc/xi_n.svg) |![theta_n](rsc/theta_of_xi_n.svg)  | ![thetap_n](rsc/dtheta-dxi_of_xi_n.svg) | ![g_n](rsc/g_n.svg)  | ![f_n](rsc/f_n.svg) | ![h_n](rsc/h_n.svg)  | ![alpha_n](rsc/alpha_n.svg) |
+|--------------|--------------|-------------|-------------|-------------|-------------|-------------|-------------|-------------|
+|2449 	 |0 	 |2.4491 	 |0.000318203 	 |-0.816367 	 |1 	 |4.89664 	 |-1 	 |0. |806253 |	 
+|2454 	 |0.01 	 |2.4541 	 |0.000631585 	 |-0.807695 	 |0.928976 	 |4.86443 	 |-0.987362 	 |0.80179 	| 
+|2459 	 |0.02 	 |2.4591 	 |0.000958193 	 |-0.799185 	 |0.87022 	 |4.83281 	 |-0.974972 	 |0.797389 	 |
+|2465 	 |0.03 	 |2.4651 	 |0.00050677 	 |-0.790996 	 |0.796424 	 |4.80666 	 |-0.962633 	 |0.792508 |	 
+|2470 	 |0.04 	 |2.4701 	 |0.000867039 	 |-0.782751 	 |0.754261 	 |4.77587 	 |-0.950671 	 |0.788258 |
+|... |	... |...      | ...	     | ...  |...	 |... |...  |...      |
+
+Here we rememeber the definition of `g_n`, `f_n`, `h_n` e `alpha_n`:
+
+|![g_n](rsc/g_n_definition.svg) | | | ![f_n](rsc/f_n_definition.svg) |
+|--------------|-|-|--------------|
+|![h_n](rsc/h_n_definition.svg) | | | ![alpha_n](rsc/alpha_n_definition.svg) |
 
 
 ### Visualization of the data
 
-In the main directory, it is provided a JupyterLab Notebook, called `Lane-Emden.ipynb`, where the skeleton of the data plotting and analysis is provided.
+In the main directory, there are 4 JupyterLab Notebooks:
+- `Lane-Emden.ipynb`, where the skeleton of the data plotting and analysis is provided, for an arbitrary value of `n`;
+- `Lane-Emden-zerosfunc.ipynb`, where the zeros for a subset of `n` values inside `[0, 5)` are plotted and analysed;
+- `Lane-Emden_confronto_vari_esponenti.ipynb`, where solutions for various `n` values are compared;
+- `Lane-Emden_confronto_Eulero-RK.ipynb`, where are compared Euler and Runge-Kutta methods.
+  
 Unfortunately, the notous curl in the `p_0/p_s` vs `(R_0/R_s)^3` does not appear clearly, probably for a computational mistake somewhere in the source code.  
 
 
