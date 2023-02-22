@@ -5,12 +5,12 @@
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 ![Operating Systems](https://img.shields.io/badge/OS-Linux%20%7C%20MacOS%20%7C%20Windows-lightgrey)
-![License](https://img.shields.io/github/license/cosmofico97/LaneEmden)
-![Pulls](https://img.shields.io/github/issues-pr/cosmofico97/LaneEmden)
-![Top Language](https://img.shields.io/github/languages/top/cosmofico97/LaneEmden)
-![Version](https://img.shields.io/github/v/release/cosmofico97/LaneEmden)
-![Commits](https://img.shields.io/github/commit-activity/m/cosmofico97/LaneEmden)
-![Size](https://img.shields.io/github/repo-size/cosmofico97/LaneEmden)
+![License](https://img.shields.io/github/license/foglienimatteo/LaneEmden)
+![Pulls](https://img.shields.io/github/issues-pr/foglienimatteo/LaneEmden)
+![Top Language](https://img.shields.io/github/languages/top/foglienimatteo/LaneEmden)
+![Version](https://img.shields.io/github/v/release/foglienimatteo/LaneEmden)
+![Commits](https://img.shields.io/github/commit-activity/m/foglienimatteo/LaneEmden)
+![Size](https://img.shields.io/github/repo-size/foglienimatteo/LaneEmden)
 
 Lane-Emden is a simple C++ program that solves the Lane-Emden differential equation
 
@@ -49,9 +49,9 @@ This project uses the header-only [`Argh!`](https://github.com/adishavit/argh) l
 
 First of all, copy the source code provided in this repository on your OS. You may clone the repository where it is built in, running in the command line
 ```bash
-git clone https://github.com/cosmofico97/LaneEmden
+git clone https://github.com/foglienimatteo/LaneEmden
 ```
-or download the source code from the webpage https://github.com/cosmofico97/LaneEmden.
+or download the source code from the webpage https://github.com/foglienimatteo/LaneEmden.
 
 
 Hereafter, run the following shell commands from the project directory:
